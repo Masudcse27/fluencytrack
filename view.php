@@ -69,7 +69,30 @@ if (!$existingsubmission) {
         exit;
     }
 }
+$fs = get_file_storage();
+$files = $fs->get_area_files($context->id, 'mod_fluencytrack', 'audiofile', 0, 'itemid, filepath, filename', false);
+$file = reset($files);
+$fileurl = '';
+if ($file) {
+    $fileurl = moodle_url::make_pluginfile_url(
+        $file->get_contextid(),
+        $file->get_component(),
+        $file->get_filearea(),
+        $file->get_itemid(),
+        $file->get_filepath(),
+        $file->get_filename()
+    );
+}
+
+$renderdata['submitted'] = true;
+$renderdata['transcript'] = $existingsubmission->transcript;
+$renderdata['grammarfeedback'] = $existingsubmission->grammarfeedback;
+$renderdata['fluencyscore'] = $existingsubmission->fluencyscore;
+$renderdata['fileurl'] = $fileurl;
+$renderdata['filename'] = $file ? $file->get_filename() : '';
+$renderdata['id'] = $cm->course;
+
 
 echo $OUTPUT->header();
-echo "Upload Successful";
+echo $OUTPUT->render_from_template('mod_fluencytrack/student_result', $renderdata);
 echo $OUTPUT->footer();

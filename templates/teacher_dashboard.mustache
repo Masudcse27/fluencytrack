@@ -1,0 +1,37 @@
+{{#hasresults}}
+<div style="overflow-x:auto;">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Fluency Score</th>
+                <th>Audio</th>
+                <th>Submitted</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#records}}
+            <tr>
+                <td>{{userfullname}}</td>
+                <td>{{fluencyscore}}/100</td>
+                <td>
+                    {{#audiourl}}
+                        <audio controls src="{{audiourl}}" style="width: 200px;"></audio>
+                    {{/audiourl}}
+                    {{^audiourl}}No audio{{/audiourl}}
+                </td>
+                <td>{{submitted}}</td>
+                <td>
+                    <a href="{{{detailurl}}}" class="btn btn-primary">View Details</a>
+                </td>
+            </tr>
+            {{/records}}
+        </tbody>
+    </table>
+</div>
+{{/hasresults}}
+
+{{^hasresults}}
+<p>No submissions found.</p>
+{{/hasresults}}

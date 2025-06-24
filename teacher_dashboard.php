@@ -64,7 +64,10 @@ foreach ($submissions as $submission) {
         'fluencyscore' => $submission->fluencyscore,
         'audiourl' => $audiourl,
         'submitted' => userdate($submission->timecreated),
-        'detailurl' => '#'
+        'detailurl' => (new moodle_url('/mod/fluencytrack/result_details.php', [
+            'id' => $id,
+            'userid' => $submission->userid
+        ]))->out()
     ];
 }
 

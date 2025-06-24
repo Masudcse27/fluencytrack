@@ -1,0 +1,28 @@
+
+<a href="{{config.wwwroot}}/course/view.php?id={{id}}" class="btn btn-secondary mt-3">← Back to Course</a>
+
+{{#submitted}}
+<h3>Your Audio:</h3>
+{{#fileurl}}
+    <audio controls style="width:100%; max-width:600px">
+        <source src="{{fileurl}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{/fileurl}}
+{{^fileurl}}
+    <div class="alert alert-warning">No audio file found.</div>
+{{/fileurl}}
+
+<h3>Transcript</h3>
+<pre style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">
+{{transcript}}
+</pre>
+
+<h3>Grammar Feedback:</h3>
+<pre style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">
+{{grammarfeedback}}
+</pre>
+
+<h3>Fluency Score: {{fluencyscore}} / 100</h3>
+{{/submitted}}
+

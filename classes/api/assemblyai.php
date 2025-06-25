@@ -5,17 +5,19 @@ defined('MOODLE_INTERNAL') || die();
 
 class assemblyai {
     public static function transcribe($filepath) {
-        global $CFG;
+       
+        $apiKey = get_config('mod_fluencytrack', 'assemblyai_api_key');
+        $endpoint = rtrim(get_config('mod_fluencytrack', 'assemblyai_api_endpoint'), '/');
+        if (empty($apiKey) || empty($endpoint)) {
+            return '[Error: Missing API credentials or endpoint in plugin settings]';
+        }
 
-        
-        $apiKey = isset($CFG->assemblyai_api_key) ? $CFG->assemblyai_api_key : '25f52db7ddeb418cafbccabc63038230';
-
-        $uploadurl = self::upload($filepath, $apiKey);
+        $uploadurl = self::upload($filepath, $apiKey, $endpoint);
         if (!$uploadurl) {
             return '[Error: Upload failed or returned no URL]';
         }
 
-        $transcriptId = self::startTranscription($uploadurl, $apiKey);
+        $transcriptId = self::startTranscription($uploadurl, $apiKey, $endpoint);
         if (!$transcriptId) {
             return '[Error: Could not start transcription]';
         }
@@ -24,7 +26,7 @@ class assemblyai {
         $retry = 0;
         do {
             sleep(2);
-            $status = self::check_status($transcriptId, $apiKey);
+            $status = self::check_status($transcriptId, $apiKey, $endpoint);
             $retry++;
             if (!$status) {
                 return '[Error: Failed to get transcription status]';
@@ -39,8 +41,8 @@ class assemblyai {
         }
     }
 
-    private static function upload($filepath, $apiKey) {
-        $uploadUrl = 'https://api.assemblyai.com/v2/upload';
+    private static function upload($filepath, $apiKey, $endpoint) {
+        $uploadUrl = $endpoint.'/upload';
 
         $ch = curl_init($uploadUrl);
         curl_setopt_array($ch, [
@@ -63,8 +65,8 @@ class assemblyai {
         return $data['upload_url'];
     }
 
-    private static function startTranscription($audioUrl, $apiKey) {
-        $url = 'https://api.assemblyai.com/v2/transcript';
+    private static function startTranscription($audioUrl, $apiKey, $endpoint) {
+        $url = $endpoint.'/transcript';
 
         $payload = json_encode([
             'audio_url' => $audioUrl,
@@ -94,8 +96,8 @@ class assemblyai {
         return $data['id'] ?? false;
     }
 
-    private static function check_status($transcriptId, $apiKey) {
-        $url = "https://api.assemblyai.com/v2/transcript/$transcriptId";
+    private static function check_status($transcriptId, $apiKey, $endpoint) {
+        $url = $endpoint."/transcript/$transcriptId";
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [

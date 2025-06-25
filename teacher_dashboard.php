@@ -76,6 +76,7 @@ echo $OUTPUT->header();
 // Render filter form
 $filterdata = [
     'id' => $id,
+    'course_id' => $cm->course,
     'searchvalue' => s($search)
 ];
 echo $OUTPUT->render_from_template('mod_fluencytrack/teacher_filterform', $filterdata);

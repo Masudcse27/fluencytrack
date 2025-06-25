@@ -11,4 +11,7 @@ $string['assemblyai_api_key'] = 'AssemblyAI API Key';
 $string['assemblyai_api_key_desc'] = 'Enter your AssemblyAI API key for transcription.';
 
 $string['assemblyai_api_endpoint'] = 'AssemblyAI API Endpoint';
-$string['assemblyai_api_endpoint_desc'] = 'Enter the base URL for the AssemblyAI API (e.g., https://api.assemblyai.com/v2)';
+$string['assemblyai_api_endpoint_desc'] = 'Enter the base URL for the AssemblyAI API';
+
+$string['languagetool_api_endpoint'] = 'Language tool API Endpoint';
+$string['languagetool_api_endpoint_desc'] = 'Enter the base URL for the AssemblyAI API';

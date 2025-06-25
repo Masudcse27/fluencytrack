@@ -7,7 +7,7 @@ class languagetool
 {
     public static function check($text)
     {
-        $url = 'https://api.languagetool.org/v2/check';
+        $url = get_config('mod_fluencytrack', 'languagetool_api_endpoint');;
 
         $data = "text=" . urlencode($text) . "&language=en-US";
         $postFields = $data;

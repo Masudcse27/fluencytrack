@@ -19,6 +19,10 @@ $PAGE->set_context($context);
 $PAGE->set_title(format_string($instance->name));
 $PAGE->set_heading(format_string($instance->name));
 
+if (has_capability('mod/fluencytrack:viewdashboard', $context)) {
+    redirect(new moodle_url('/mod/fluencytrack/teacher_dashboard.php', ['id' => $id]));
+}
+
 
 global $DB, $USER;
 

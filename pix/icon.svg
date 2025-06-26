@@ -1,0 +1,22 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Circle Badge -->
+  <circle cx="100" cy="100" r="95" fill="#f9f9f9" stroke="#3498db" stroke-width="6"/>
+
+  <!-- Microphone -->
+  <g transform="translate(65,45)">
+    <rect x="25" y="10" width="20" height="55" rx="10" fill="#3498db"/>
+    <rect x="30" y="65" width="10" height="20" fill="#3498db"/>
+    <line x1="20" y1="85" x2="60" y2="85" stroke="#3498db" stroke-width="4"/>
+  </g>
+
+  <!-- Star (fluency/performance) -->
+  <polygon points="100,28 106,44 122,47 110,60 114,76 100,68 86,76 90,60 78,47 94,44" fill="#F1C40F"/>
+
+  <!-- Checkmark (assessment) -->
+  <polyline points="120,100 132,115 150,90" fill="none" stroke="#2ECC71" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Text Label (moved slightly closer for optimal spacing) -->
+  <text x="100" y="158" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#2980b9">
+    Fluency Track
+  </text>
+</svg>

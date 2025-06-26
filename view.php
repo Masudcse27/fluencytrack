@@ -1,6 +1,7 @@
 <?php
 require('../../config.php');
 require_once('classes/form/upload_form.php');
+require_once($CFG->libdir . '/gradelib.php');
 use mod_fluencytrack\form\upload_form;
 use mod_fluencytrack\api\assemblyai;
 use mod_fluencytrack\api\languagetool;
@@ -64,6 +65,13 @@ if (!$existingsubmission) {
         $submission->fluencyscore = $fluencyScore;
         $submission->timecreated = time();
         $DB->insert_record('fluencytrack_submissions', $submission);
+
+        $scaledgrade = ($fluencyScore / 100) * $instance->grade;
+        $grade = [
+            'userid' => $USER->id,
+            'rawgrade' => $scaledgrade
+        ];
+        fluencytrack_grade_item_update($instance, $grade);
 
         $existingsubmission = $submission;
     } else {

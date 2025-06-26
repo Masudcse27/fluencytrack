@@ -151,3 +151,28 @@ function mod_fluencytrack_pluginfile(
 
     return true;
 }
+
+function fluencytrack_supports($feature) {
+    switch ($feature) {
+        case FEATURE_GRADE_HAS_GRADE:
+            return true;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        default:
+            return null;
+    }
+}
+
+function fluencytrack_grade_item_update($fluencytrack, $grades = null) {
+    require_once($GLOBALS['CFG']->libdir.'/gradelib.php');
+
+    $params = [
+        'itemname' => clean_param($fluencytrack->name, PARAM_NOTAGS),
+        'gradetype' => GRADE_TYPE_VALUE,
+        'grademax' => $fluencytrack->grade,
+        'grademin' => 0,
+    ];
+
+    return grade_update('mod/fluencytrack', $fluencytrack->course, 'mod', 'fluencytrack',
+                        $fluencytrack->id, 0, $grades, $params);
+}

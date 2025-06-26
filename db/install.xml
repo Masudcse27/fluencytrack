@@ -9,6 +9,7 @@
         <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="introformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="grade" TYPE="number" LENGTH="10" NOTNULL="true" DEFAULT="100.00"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

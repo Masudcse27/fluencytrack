@@ -18,5 +18,12 @@ if ($hassiteconfig) {
         'https://api.assemblyai.com/v2'
     ));
 
+    $settings->add(new admin_setting_configtext(
+        'mod_fluencytrack/languagetool_api_endpoint',
+        get_string('languagetool_api_endpoint', 'mod_fluencytrack'),
+        get_string('languagetool_api_endpoint_desc', 'mod_fluencytrack'),
+        'https://api.languagetool.org/v2/check'
+    ));
+
     $ADMIN->add('modsettings', $settings);
 }

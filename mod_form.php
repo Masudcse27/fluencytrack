@@ -10,6 +10,7 @@ class mod_fluencytrack_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
 
         $this->standard_intro_elements();
+        $this->standard_grading_coursemodule_elements();
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
     }

@@ -5,6 +5,7 @@
             <tr>
                 <th>Student</th>
                 <th>Fluency Score</th>
+                <th>Grade</th>
                 <th>Audio</th>
                 <th>Submitted</th>
                 <th>Action</th>
@@ -14,7 +15,8 @@
             {{#records}}
             <tr>
                 <td>{{userfullname}}</td>
-                <td>{{fluencyscore}}/100</td>
+                <td>{{fluencyscore}}</td>
+                <td>{{grade}}</td>
                 <td>
                     {{#audiourl}}
                         <audio controls src="{{audiourl}}" style="width: 200px;"></audio>

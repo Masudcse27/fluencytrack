@@ -68,15 +68,14 @@ function fluencytrack_update_instance($data, $mform) {
  * @return bool
  */
 function fluencytrack_delete_instance($id) {
-    global $DB;
+    global $DB,$CFG;
+    require_once($CFG->libdir . '/gradelib.php');
 
     if (!$instance = $DB->get_record('fluencytrack', ['id' => $id])) {
         return false;
     }
 
-    // Delete main record
-    $DB->delete_records('fluencytrack', ['id' => $id]);
-
+    grade_update('mod/fluencytrack', $instance->course, 'mod', 'fluencytrack', $instance->id, 0, null, ['deleted' => 1]);
     // Delete related submission data (optional)
     $DB->delete_records('fluencytrack_submissions', ['fluencytrackid' => $id]);
 
@@ -84,7 +83,8 @@ function fluencytrack_delete_instance($id) {
     $context = context_module::instance($instance->coursemodule);
     $fs = get_file_storage();
     $fs->delete_area_files($context->id, 'mod_fluencytrack', 'audiofile');
-
+    
+    $DB->delete_records('fluencytrack', ['id' => $id]);
     return true;
 }
 

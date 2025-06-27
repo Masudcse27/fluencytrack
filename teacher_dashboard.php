@@ -1,6 +1,6 @@
 <?php
 require('../../config.php');
-
+require_once($CFG->libdir . '/gradelib.php');
 $id = required_param('id', PARAM_INT); // Course module ID
 $search = optional_param('search', '', PARAM_TEXT); // Search by username or name
 
@@ -38,9 +38,19 @@ if (!empty($search)) {
 $sql .= " ORDER BY s.timecreated DESC";
 $submissions = $DB->get_records_sql($sql, $params);
 
+// $grades = grade_get_grades($instance->course, 'mod', 'fluencytrack', $instance->id);
+// $gradeitem = $grades->items[0] ?? null;
+
 $fs = get_file_storage();
 $records = [];
-
+// var_dump($grades->items[0]);
+// die();
+$grade_item = grade_item::fetch([
+    'iteminstance' => $instance->id,
+    'itemmodule' => 'fluencytrack',
+    'courseid' => $cm->course
+]);
+$maxgrade = $grade_item ? $grade_item->grademax : 100;
 foreach ($submissions as $submission) {
     // Get user's audio file
     $usercontext = context_user::instance($submission->userid);
@@ -59,10 +69,22 @@ foreach ($submissions as $submission) {
         );
     }
 
+    $individualgrades = grade_get_grades($instance->course, 'mod', 'fluencytrack', $instance->id, $submission->userid);
+    $gradeitem = $individualgrades->items[0] ?? null;
+    $usergrade = null;
+
+    if ($gradeitem && isset($gradeitem->grades[$submission->userid])) {
+        $usergrade = $gradeitem->grades[$submission->userid]->grade;
+    }
+
+    $gradeformatted = $usergrade !== null
+        ? round($usergrade, 2) . ' / ' . round($maxgrade, 2)
+        : 'Not graded';
     $records[] = [
         'userfullname' => fullname($submission),
         'fluencyscore' => $submission->fluencyscore,
         'audiourl' => $audiourl,
+        'grade' => $gradeformatted,
         'submitted' => userdate($submission->timecreated),
         'detailurl' => (new moodle_url('/mod/fluencytrack/result_details.php', [
             'id' => $id,

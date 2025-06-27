@@ -1,5 +1,6 @@
 <?php
 require('../../config.php');
+require_once($CFG->libdir . '/gradelib.php');
 
 $id = required_param('id', PARAM_INT);       // Course module ID
 $userid = required_param('userid', PARAM_INT); // User ID
@@ -43,6 +44,20 @@ if ($file) {
         $file->get_filename()
     );
 }
+$grades = grade_get_grades($instance->course, 'mod', 'fluencytrack', $instance->id, $userid);
+$gradeitem = $grades->items[0] ?? null;
+$gradevalue = null;
+
+if ($gradeitem && isset($gradeitem->grades[$userid])) {
+    $gradevalue = $gradeitem->grades[$userid]->grade;
+}
+$grade_item = grade_item::fetch([
+    'iteminstance' => $instance->id,
+    'itemmodule' => 'fluencytrack',
+    'courseid' => $cm->course
+]);
+$maxgrade = $grade_item ? $grade_item->grademax : 100;
+// $renderdata['grade'] = $gradevalue !== null ? round($gradevalue, 2)."/".round($maxgrade, 2) : 'Not graded';
 
 // Prepare data for template
 $data = [
@@ -53,6 +68,7 @@ $data = [
     'submitted' => true,
     'fileurl' => $audiourl,
     'filename' => $file ? $file->get_filename() : '',
+    'grade'=> $gradevalue !== null ? round($gradevalue, 2)."/".round($maxgrade, 2) : 'Not graded',
     'id' => $id
 ];
 

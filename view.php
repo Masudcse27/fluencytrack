@@ -96,6 +96,20 @@ if ($file) {
     );
 }
 
+$grades = grade_get_grades($instance->course, 'mod', 'fluencytrack', $instance->id, $USER->id);
+$gradeitem = $grades->items[0] ?? null;
+$gradevalue = null;
+if ($gradeitem && isset($gradeitem->grades[$USER->id])) {
+    $gradevalue = $gradeitem->grades[$USER->id]->grade;
+}
+$grade_item = grade_item::fetch([
+    'iteminstance' => $instance->id,
+    'itemmodule' => 'fluencytrack',
+    'courseid' => $cm->course
+]);
+$maxgrade = $grade_item ? $grade_item->grademax : 100;
+$renderdata['grade'] = $gradevalue !== null ? round($gradevalue, 2)."/".round($maxgrade, 2) : 'Not graded';
+
 $renderdata['submitted'] = true;
 $renderdata['transcript'] = $existingsubmission->transcript;
 $renderdata['grammarfeedback'] = $existingsubmission->grammarfeedback;

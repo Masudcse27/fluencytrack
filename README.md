@@ -65,7 +65,7 @@ Admins and teachers can view individual student reports:
 ## Grade Book
 The student's grade for this activity is also added to the grade book.
 
-<img width="960" alt="grade book report" src="https://github.com/Masudcse27/readme_images/blob/main/fluency_track/fluency_track_6.png">
+<img width="960" alt="grade book report" src="https://github.com/Masudcse27/readme_images/blob/main/fluency_track/fluency_track_7.png">
 
 
 
